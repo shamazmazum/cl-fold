@@ -33,3 +33,14 @@
                       (sb-c::give-up-ir1-transform))))))))
   (fold1-transform foldl1)
   (fold1-transform foldr1))
+
+;; Very BASIC type deriver
+(macrolet ((derive-type (name has-init-p)
+             `(sb-c:defoptimizer (,name sb-c:derive-type) ((f ,@(if has-init-p '(init)) xs))
+                (let ((f-type (sb-c::lvar-fun-type f t t)))
+                  (when (sb-kernel:fun-type-p f-type)
+                    (sb-kernel:single-value-type (sb-kernel:fun-type-returns f-type)))))))
+  (derive-type foldl1 nil)
+  (derive-type foldr1 nil)
+  (derive-type foldl t)
+  (derive-type foldr t))
