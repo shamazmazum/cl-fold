@@ -10,10 +10,10 @@ Here is a correspondence between various `fold` functions and reduce:
 
 | Fold   |  Reduce   |
 |--------|-----------|
-| (foldl f x xs) | (reduce f xs :initial-value x) |
-| (foldr f x xs) | (reduce f xs :initial-value x :from-end t) |
-| (foldl1 f xs) | (reduce f xs) |
-| (foldr1 f xs) | (reduce f xs :from-end t) |
+| `(foldl f x xs)` | `(reduce f xs :initial-value x)` |
+| `(foldr f x xs)` | `(reduce f xs :initial-value x :from-end t)` |
+| `(foldl1 f xs)` | `(reduce f xs)` |
+| `(foldr1 f xs)` | `(reduce f xs :from-end t)` |
 
 Unlike `reduce`, `fold` functions only accept functions as their first argument
 (i.e. they do not accept function designators which are not functions, such as
