@@ -28,3 +28,14 @@
     :components ((:file "package")
                  (:file "tests"))
     :depends-on (:cl-fold :fiveam))
+
+(defsystem :cl-fold/benchmarks
+    :name :cl-fold/benchmarks
+    :version "0.1"
+    :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
+    :license "2-clause BSD"
+    :serial t
+    :pathname "benchmarks"
+    :components ((:file "package")
+                 (:file "benchmarks"))
+    :depends-on (:cl-fold :trivial-benchmark))
