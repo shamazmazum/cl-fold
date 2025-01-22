@@ -30,13 +30,18 @@
                  (funcall f (car xs) (%go (cdr xs))))))
     (%go xs)))
 
-;; TODO: Optimize
 (declaim (inline list-foldr1))
 (defun list-foldr1 (f xs)
   (when (null xs)
     (error 'empty-sequence :fn 'foldr1))
-  (list-foldr f (car (last xs)) (butlast xs)))
-
+  ;; Transform to FOLDL to do the fold and find initial element in one pass.
+  (labels ((%go (g xs)
+             (if (null (cdr xs))
+                 (values g (car xs))
+                 (%go (lambda (y) (funcall g (funcall f (car xs) y))) (cdr xs)))))
+    (multiple-value-bind (g init)
+        (%go #'identity xs)
+      (funcall g init))))
 
 ;; Vector variants
 (declaim (inline vector-foldl))
