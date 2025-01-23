@@ -17,39 +17,48 @@
             (vector (coerce list 'vector)))
        ,@body)))
 
+(defmacro with-tests (((var) forms) &body body)
+  `(progn
+     ,@(loop for form in forms collect
+             `(let ((,var ,form))
+                ,@body))))
+
+(defmacro test-fold (form)
+  `(with-tests ((seq) ((the list list)
+                       (the vector vector)
+                       ;; Specific type is not know at compile time
+                       (if (zerop (random 2)) list vector)))
+     ,form))
+
 (in-suite fold)
 (test foldl
   (with-setup
-    (is (= (cl-fold:foldl #'f 0 list)
-           (reduce #'f list :initial-value 0)))
-    (is (= (cl-fold:foldl #'f 0 vector)
-           (reduce #'f vector :initial-value 0)))
+    (test-fold
+     (is (= (cl-fold:foldl #'f 0 seq)
+            (reduce #'f seq :initial-value 0))))
     (is-true (zerop (cl-fold:foldl #'f 0 '())))
     (is-true (zerop (cl-fold:foldl #'f 0 #())))))
 
 (test foldl1
   (with-setup
-    (is (= (cl-fold:foldl1 #'f list)
-           (reduce #'f list)))
-    (is (= (cl-fold:foldl1 #'f vector)
-           (reduce #'f vector)))
+    (test-fold
+     (is (= (cl-fold:foldl1 #'f seq)
+            (reduce #'f seq))))
     (signals cl-fold:empty-sequence (cl-fold:foldl1 #'f '()))
     (signals cl-fold:empty-sequence (cl-fold:foldl1 #'f #()))))
 
 (test foldr
   (with-setup
-    (is (= (cl-fold:foldr #'f 0 list)
-           (reduce #'f list :initial-value 0 :from-end t)))
-    (is (= (cl-fold:foldr #'f 0 vector)
-           (reduce #'f vector :initial-value 0 :from-end t)))
+    (test-fold
+     (is (= (cl-fold:foldr #'f 0 seq)
+           (reduce #'f seq :initial-value 0 :from-end t))))
     (is-true (zerop (cl-fold:foldr #'f 0 '())))
     (is-true (zerop (cl-fold:foldr #'f 0 #())))))
 
 (test foldr1
   (with-setup
-    (is (= (cl-fold:foldr1 #'f list)
-           (reduce #'f list :from-end t)))
-    (is (= (cl-fold:foldr1 #'f vector)
-           (reduce #'f vector :from-end t)))
+    (test-fold
+     (is (= (cl-fold:foldr1 #'f seq)
+            (reduce #'f seq :from-end t))))
     (signals cl-fold:empty-sequence (cl-fold:foldr1 #'f '()))
     (signals cl-fold:empty-sequence (cl-fold:foldr1 #'f #()))))
