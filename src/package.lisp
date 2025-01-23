@@ -4,4 +4,6 @@
            #:foldr
            #:foldl1
            #:foldr1
+           #:mapfoldl
+           #:mapfoldr
            #:empty-sequence))

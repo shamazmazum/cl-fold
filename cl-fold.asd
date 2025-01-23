@@ -28,7 +28,7 @@
     :pathname "tests"
     :components ((:file "package")
                  (:file "tests"))
-    :depends-on (:cl-fold :fiveam))
+    :depends-on (:cl-fold :fiveam :serapeum))
 
 (defsystem :cl-fold/benchmarks
     :name :cl-fold/benchmarks
@@ -39,4 +39,4 @@
     :pathname "benchmarks"
     :components ((:file "package")
                  (:file "benchmarks"))
-    :depends-on (:cl-fold :trivial-benchmark))
+    :depends-on (:cl-fold :trivial-benchmark :serapeum))

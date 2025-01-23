@@ -35,3 +35,25 @@ Signals EMPTY-SEQUENCE if XS is empty."
   (typecase xs
     (list   (list-foldr1   f xs))
     (vector (vector-foldr1 f xs))))
+
+(declaim (inline mapfoldl))
+(defun mapfoldl (redfn mapfn init xs)
+  "Map + Left fold.
+
+For a sequence XS = [X0, X1, ...] compute
+REDFN(REDFN(REDFN(INIT, MAPFN(X0)), MAPFN(X1)), ...)."
+  (foldl
+   (lambda (acc x)
+     (funcall redfn acc (funcall mapfn x)))
+   init xs))
+
+(declaim (inline mapfoldr))
+(defun mapfoldr (redfn mapfn init xs)
+  "Map + Right fold.
+
+For a sequence XS = [X0, ..., XN-1, XN] compute
+REDFN(MAPFN(X0), ...(REDFN(MAPFN(XN-1), REDFN(MAPFN(XN), INIT))))."
+  (foldr
+   (lambda (x acc)
+     (funcall redfn (funcall mapfn x) acc))
+   init xs))

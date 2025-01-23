@@ -62,3 +62,25 @@
             (reduce #'f seq :from-end t))))
     (signals cl-fold:empty-sequence (cl-fold:foldr1 #'f '()))
     (signals cl-fold:empty-sequence (cl-fold:foldr1 #'f #()))))
+
+(serapeum:defconstructor foo
+  (x fixnum))
+
+(defmacro with-setup-2 (&body body)
+  `(flet ((f (x y)
+            (+ (* 2 x) y)))
+     (let* ((list (loop repeat 100 collect (foo (random 10))))
+            (vector (coerce list 'vector)))
+       ,@body)))
+
+(test mapfoldl
+  (with-setup-2
+    (test-fold
+     (is (= (cl-fold:mapfoldl #'f #'foo-x 0 seq)
+            (reduce #'f seq :initial-value 0 :key #'foo-x))))))
+
+(test mapfoldr
+  (with-setup-2
+    (test-fold
+     (is (= (cl-fold:mapfoldr #'f #'foo-x 0 seq)
+            (reduce #'f seq :initial-value 0 :key #'foo-x :from-end t))))))

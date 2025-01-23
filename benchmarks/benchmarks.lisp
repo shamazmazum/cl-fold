@@ -67,3 +67,49 @@
   (format t "Folding vectors with REDUCE~%")
   (with-timing 100
     (reduce #'+ *test-data-vector* :from-end t)))
+
+
+(serapeum:defconstructor foo
+  (x (unsigned-byte 8)))
+
+(declaim (type list *test-data-list-2*))
+(defparameter *test-data-list-2*
+  (mapcar #'foo *test-data-list*))
+
+(declaim (type simple-vector *test-data-vector-2*))
+(defparameter *test-data-vector-2*
+  (map 'vector #'foo *test-data-vector*))
+
+(defun mapfoldl ()
+  (format t "Folding lists with MAPFOLDL~%")
+  (with-timing 100
+    (cl-fold:mapfoldl #'+ #'foo-x 0 *test-data-list-2*))
+
+  (format t "Folding lists with REDUCE~%")
+  (with-timing 100
+    (reduce #'+ *test-data-list-2* :initial-value 0 :key #'foo-x))
+
+  (format t "Folding vectors with MAPFOLDL~%")
+  (with-timing 100
+    (cl-fold:mapfoldl #'+ #'foo-x 0 *test-data-vector-2*))
+
+  (format t "Folding vectors with REDUCE~%")
+  (with-timing 100
+    (reduce #'+ *test-data-vector-2* :initial-value 0 :key #'foo-x)))
+
+(defun mapfoldr ()
+  (format t "Folding lists with MAPFOLDR~%")
+  (with-timing 100
+    (cl-fold:mapfoldr #'+ #'foo-x 0 *test-data-list-2*))
+
+  (format t "Folding lists with REDUCE~%")
+  (with-timing 100
+    (reduce #'+ *test-data-list-2* :initial-value 0 :from-end t :key #'foo-x))
+
+  (format t "Folding vectors with MAPFOLDR~%")
+  (with-timing 100
+    (cl-fold:mapfoldr #'+ #'foo-x 0 *test-data-vector-2*))
+
+  (format t "Folding vectors with REDUCE~%")
+  (with-timing 100
+    (reduce #'+ *test-data-vector-2* :initial-value 0 :from-end t :key #'foo-x)))
