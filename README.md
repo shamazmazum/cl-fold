@@ -4,7 +4,8 @@
 
 This library provides basic functions for folding sequences, namely `foldl`,
 `foldr`, `foldl1` and `foldr1`. These functions serve as a replacement for the
-standard function `reduce`.
+standard function `reduce`. Also there is `mapfoldl` and `mapfoldr` as a
+replacement for reduce with `:key` argument.
 
 Here is a correspondence between various `fold` functions and reduce:
 
@@ -14,6 +15,8 @@ Here is a correspondence between various `fold` functions and reduce:
 | `(foldr f x xs)` | `(reduce f xs :initial-value x :from-end t)` |
 | `(foldl1 f xs)` | `(reduce f xs)` |
 | `(foldr1 f xs)` | `(reduce f xs :from-end t)` |
+| `(mapfoldl f g x xs)` | `(reduce f xs :initial-value x :key g)` |
+| `(mapfoldr f g x xs)` | `(reduce f xs :initial-value x :key g :from-end t)` |
 
 Unlike `reduce`, `fold` functions only accept functions as their first argument
 (i.e. they do not accept function designators which are not functions, such as
