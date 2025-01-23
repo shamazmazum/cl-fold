@@ -8,7 +8,8 @@
     :pathname "src"
     :components ((:file "package")
                  (:file "fndb" :if-feature :sbcl)
-                 (:file "fold")
+                 (:file "fold-specialized")
+                 (:file "fold-generic")
                  (:file "sbcl" :if-feature :sbcl))
     :in-order-to ((test-op (load-op "cl-fold/tests")))
     :perform (test-op (op system)
