@@ -83,7 +83,7 @@
 (defun mapfoldl ()
   (format t "Folding lists with MAPFOLDL~%")
   (with-timing 100
-    (cl-fold:mapfoldl #'+ #'foo-x 0 *test-data-list-2*))
+    (cl-fold:mapfoldl #'+ (lambda (x) (foo-x x)) 0 *test-data-list-2*))
 
   (format t "Folding lists with REDUCE~%")
   (with-timing 100
@@ -91,7 +91,7 @@
 
   (format t "Folding vectors with MAPFOLDL~%")
   (with-timing 100
-    (cl-fold:mapfoldl #'+ #'foo-x 0 *test-data-vector-2*))
+    (cl-fold:mapfoldl #'+ (lambda (x) (foo-x x)) 0 *test-data-vector-2*))
 
   (format t "Folding vectors with REDUCE~%")
   (with-timing 100
@@ -100,7 +100,7 @@
 (defun mapfoldr ()
   (format t "Folding lists with MAPFOLDR~%")
   (with-timing 100
-    (cl-fold:mapfoldr #'+ #'foo-x 0 *test-data-list-2*))
+    (cl-fold:mapfoldr #'+ (lambda (x) (foo-x x)) 0 *test-data-list-2*))
 
   (format t "Folding lists with REDUCE~%")
   (with-timing 100
@@ -108,7 +108,7 @@
 
   (format t "Folding vectors with MAPFOLDR~%")
   (with-timing 100
-    (cl-fold:mapfoldr #'+ #'foo-x 0 *test-data-vector-2*))
+    (cl-fold:mapfoldr #'+ (lambda (x) (foo-x x)) 0 *test-data-vector-2*))
 
   (format t "Folding vectors with REDUCE~%")
   (with-timing 100
