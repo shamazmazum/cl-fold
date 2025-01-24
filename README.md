@@ -39,6 +39,22 @@ compiling this
 
 gives a compile-time warning.
 
+### SBCL cannot into inlining
+
+Use `mapfoldl` and `mapfoldr` with care. SBCL often fails to inline their second
+argument. For more info, see
+[here](https://bugs.launchpad.net/sbcl/+bug/2095560). For example, instead of
+
+``` lisp
+(cl-fold:mapfoldl #'f #'g x xs)
+```
+
+you will probably need to write
+
+``` lisp
+(cl-fold:mapfoldl #'f (lambda (x) (g x)) x xs)
+```
+
 ## Benchmarks
 
 These benchmarks are for summing all elements in a list and a simple vector with
