@@ -1,6 +1,6 @@
 (defsystem :cl-fold
     :name :cl-fold
-    :version "0.1"
+    :version "0.2"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :description "Fast foldl/foldr/foldl1/foldr1 for Common Lisp"
     :license "2-clause BSD"
@@ -21,7 +21,7 @@
 
 (defsystem :cl-fold/tests
     :name :cl-fold/tests
-    :version "0.1"
+    :version "0.2"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :license "2-clause BSD"
     :serial t
@@ -32,7 +32,7 @@
 
 (defsystem :cl-fold/benchmarks
     :name :cl-fold/benchmarks
-    :version "0.1"
+    :version "0.2"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :license "2-clause BSD"
     :serial t
